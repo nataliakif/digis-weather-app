@@ -12,17 +12,17 @@ const CitySearch = () => {
   const dispatch = useDispatch();
   const { error, status } = useSelector((state) => state.weather);
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     const city = inputValue.trim();
     if (!city) return;
     dispatch(clearWeather());
     dispatch(setCity(city));
     dispatch(fetchWeather(city));
-    // console.log(city);
   };
 
   return (
-    <div className={styles.wrapper}>
+    <form className={styles.wrapper} onSubmit={handleSearch}>
       <input
         type="text"
         value={inputValue}
@@ -30,12 +30,12 @@ const CitySearch = () => {
         onChange={(e) => setInputValue(e.target.value)}
         className={styles.input}
       />
-      <button onClick={handleSearch} className={styles.button}>
+      <button type="submit" className={styles.button}>
         Search
       </button>
 
       {status === "failed" && error && <p className={styles.error}>{error}</p>}
-    </div>
+    </form>
   );
 };
 
