@@ -18,6 +18,7 @@ const WeatherChart = () => {
     if (!data) return [];
 
     const map = {};
+
     data.list.forEach((item) => {
       const date = item.dt_txt.split(" ")[0];
       if (!map[date]) {
@@ -26,15 +27,22 @@ const WeatherChart = () => {
       map[date].push(item);
     });
 
-    return Object.entries(map).map(([date, entries]) => {
-      const temps = entries.map((e) => e.main.temp);
-      const avg = temps.reduce((sum, t) => sum + t, 0) / temps.length;
+    const grouped = [];
 
-      return {
-        date,
-        temp: Math.round(avg),
-      };
-    });
+    for (const date in map) {
+      if (map.hasOwnProperty(date)) {
+        const entries = map[date];
+        const temps = entries.map((e) => e.main.temp);
+        const avg = temps.reduce((sum, t) => sum + t, 0) / temps.length;
+
+        grouped.push({
+          date,
+          temp: Math.round(avg),
+        });
+      }
+    }
+
+    return grouped;
   }, [data]);
 
   if (!data || groupedByDay.length === 0) return null;
@@ -43,15 +51,35 @@ const WeatherChart = () => {
     <div className={styles.chartWrapper}>
       <ResponsiveContainer>
         <BarChart data={groupedByDay}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis unit="°C" />
-          <Tooltip />
-          <Bar dataKey="temp" fill="#1890ff" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+          <XAxis
+            dataKey="date"
+            tick={{ fontSize: 12, fill: "#666" }}
+            axisLine={{ stroke: "#ccc" }}
+            tickLine={false}
+          />
+          <YAxis
+            unit="°C"
+            tick={{ fontSize: 12, fill: "#666" }}
+            axisLine={{ stroke: "#ccc" }}
+            tickLine={false}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#fff",
+              border: "1px solid #ddd",
+              fontSize: "14px",
+            }}
+          />
+          <Bar
+            dataKey="temp"
+            fill="#e39b14"
+            radius={[8, 8, 0, 0]}
+            barSize={40}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
 };
-
 export default WeatherChart;
