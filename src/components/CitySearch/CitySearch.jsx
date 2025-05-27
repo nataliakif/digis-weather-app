@@ -4,7 +4,7 @@ import {
   setCity,
   fetchWeather,
   clearWeather,
-} from "../app/features/weather/weatherSlice";
+} from "../../app/features/weather/weatherSlice";
 import styles from "./CitySearch.module.css";
 
 const CitySearch = () => {

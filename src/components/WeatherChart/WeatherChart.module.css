@@ -1,0 +1,13 @@
+.chartWrapper {
+  width: 100%;
+  max-width: 700px;
+  height: 350px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
